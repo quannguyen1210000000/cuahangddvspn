@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên Hệ & Tư Vấn Kín Đáo - EvaCare</title>
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-info">
+        <span><i class="fas fa-lock"></i> Đội ngũ Dược sĩ & Bác sĩ tư vấn 1:1 hoàn toàn kín đáo</span>
+      </div>
+      <div class="top-bar-info">
+        <span><i class="fas fa-phone-alt"></i> Hotline 24/7: 1900 8888</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="main-header">
+    <div class="container header-wrapper">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fas fa-spa"></i></div>
+        EvaCare
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Trang Chủ</a>
+        <a href="index.html#products-section" class="nav-link">Sản Phẩm</a>
+        <a href="index.html#about-section" class="nav-link">Vì Sao Chọn EvaCare</a>
+        <a href="contact.html" class="nav-link active">Liên Hệ & Tư Vấn</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="login.html" class="action-btn" title="Đăng nhập">
+          <i class="fas fa-user"></i>
+        </a>
+
+        <button class="action-btn" id="cart-btn" title="Giỏ hàng">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="badge cart-count-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contact Hero -->
+  <section class="contact-hero">
+    <div class="container">
+      <span class="section-tag">Trung Tâm Hỗ Trợ 24/7</span>
+      <h1 class="section-title">Lắng Nghe & Đồng Hành Cùng Bạn</h1>
+      <p class="section-subtitle" style="max-width:600px; margin:0 auto;">Nếu bạn có thắc mắc về sản phẩm hoặc cần tư vấn riêng tư về chăm sóc vùng nhạy cảm, đừng ngần ngại liên hệ với EvaCare.</p>
+    </div>
+  </section>
+
+  <!-- Contact Info Cards -->
+  <section class="container">
+    <div class="contact-cards-grid">
+      <div class="contact-info-card">
+        <div class="contact-card-icon"><i class="fas fa-phone-volume"></i></div>
+        <h3>Hotline Tư Vấn</h3>
+        <p>1900 8888 - 0988 777 666</p>
+        <p style="font-size:0.8rem; color:var(--primary); font-weight:600; margin-top:4px;">(Hoạt động 8h00 - 22h00 hàng ngày)</p>
+      </div>
+
+      <div class="contact-info-card">
+        <div class="contact-card-icon" style="background:var(--secondary-light); color:var(--secondary);"><i class="fas fa-envelope-open-text"></i></div>
+        <h3>Email Tư Vấn Kín Đáo</h3>
+        <p>tuvan@evacare.vn</p>
+        <p style="font-size:0.8rem; color:var(--secondary); font-weight:600; margin-top:4px;">(Phản hồi nhanh trong vòng 2 giờ)</p>
+      </div>
+
+      <div class="contact-info-card">
+        <div class="contact-card-icon" style="background:#fff3e0; color:var(--accent);"><i class="fas fa-store"></i></div>
+        <h3>Hệ Thống Showroom</h3>
+        <p>123 Nguyễn Trãi, Q.1, TP. Hồ Chí Minh</p>
+        <p>45 Cầu Giấy, Q. Cầu Giấy, Hà Nội</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Contact Form & Map Section -->
+  <section class="container">
+    <div class="contact-main-grid">
+      <div class="contact-form-box">
+        <h2 style="font-size:1.6rem; margin-bottom:8px; color:var(--dark);">Gửi Yêu Cầu Tư Vấn Mẫu</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:28px;">Mọi thông tin của bạn được cam kết bảo mật 100% tuyệt đối.</p>
+
+        <form id="contact-form" onsubmit="return handleContact(event)">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">Họ và tên của bạn</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" id="contact-name" class="form-control" placeholder="Nhập họ và tên..." required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-email">Địa chỉ Email</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="contact-email" class="form-control" placeholder="email@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-phone">Số điện thoại / Zalo</label>
+            <div class="input-with-icon">
+              <i class="fas fa-phone-alt"></i>
+              <input type="tel" id="contact-phone" class="form-control" placeholder="0901 234 567">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Vấn đề bạn cần hỗ trợ</label>
+            <select class="form-control" style="padding-left:16px;">
+              <option value="tu-van-san-pham">Tư vấn chọn dòng sản phẩm phù hợp</option>
+              <option value="tu-van-suc-khoe">Hỏi đáp bác sĩ về chăm sóc vùng nhạy cảm</option>
+              <option value="don-hang">Hỗ trợ kiểm tra đơn hàng / Đổi trả</option>
+              <option value="dai-ly">Đăng ký làm đại lý / Phân phối chính hãng</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-message">Nội dung câu hỏi / Tin nhắn</label>
+            <textarea id="contact-message" class="form-control" style="padding-left:16px; min-height:120px; resize:vertical;" placeholder="Viết tin nhắn hoặc câu hỏi của bạn tại đây..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-paper-plane"></i> Gửi Tin Nhắn Cho EvaCare
+          </button>
+        </form>
+      </div>
+
+      <!-- Map & Showroom Visual Box -->
+      <div class="map-box">
+        <div class="map-placeholder">
+          <i class="fas fa-map-marked-alt"></i>
+          <h3 style="font-size:1.4rem; margin-bottom:8px;">Showroom Chính Hãng EvaCare</h3>
+          <p style="max-width:320px; font-size:0.9rem; color:#4a5568; margin-bottom:20px;">
+            Ghé thăm không gian trải nghiệm và dùng thử miễn phí tất cả dòng dung dịch vệ sinh hữu cơ cao cấp.
+          </p>
+          <div style="background:#fff; padding:16px 24px; border-radius:12px; box-shadow:var(--shadow-sm); font-size:0.88rem; text-align:left;">
+            <p style="margin-bottom:6px;"><strong><i class="fas fa-clock" style="color:var(--primary);"></i> Giờ mở cửa:</strong> 08:00 - 21:00 (Tất cả các ngày)</p>
+            <p style="margin-bottom:6px;"><strong><i class="fas fa-car" style="color:var(--secondary);"></i> Chỗ đỗ xe:</strong> Miễn phí ô tô & xe máy</p>
+            <p><strong><i class="fas fa-ribbon" style="color:var(--accent);"></i> Quà tặng:</strong> Tặng mẫu thử cho khách thăm</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Section -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Hỏi Đáp Y Khoa</span>
+        <h2 class="section-title">Câu Hỏi Thường Gặp (FAQ)</h2>
+        <p class="section-subtitle">Giải đáp các thắc mắc phổ biến của khách hàng khi sử dụng sản phẩm EvaCare</p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item active">
+          <div class="faq-question">
+            Dung dịch vệ sinh EvaCare có dùng được hàng ngày không?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Có. Toàn bộ sản phẩm EvaCare đều được điều chế với độ pH sinh lý 3.8 - 4.5 dịu nhẹ và không chứa xà phòng hay Paraben. Bạn hoàn toàn có thể sử dụng từ 1 - 2 lần mỗi ngày để giữ vùng nhạy cảm luôn thoáng sạch và dễ chịu.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Đóng gói giao hàng của shop có ghi tên sản phẩm ra bên ngoài không?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>EvaCare thấu hiểu sự riêng tư của khách hàng. Tất cả các đơn hàng gửi đi đều được che tên sản phẩm 100%, đóng trong hộp carton bảo mật kín đáo. Người giao hàng và người xung quanh sẽ không thể biết bên trong là sản phẩm gì.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Sản phẩm có dùng được cho phụ nữ mang thai hoặc sau sinh không?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>EvaCare có dòng sản phẩm chuyên biệt "Pure & Safe" và "Organic Soft Foam" cực kỳ an toàn cho bà bầu và phụ nữ sau sinh. Sản phẩm sử dụng chiết xuất Lô Hội và Cúc La Mã hữu cơ đã được chứng nhận y khoa không gây ảnh hưởng đến thai nhi.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Hình thức thanh toán và thời gian nhận hàng ra sao?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Bạn có thể lựa chọn Thanh toán khi nhận hàng (COD) hoặc Chuyển khoản ngân hàng. Đơn hàng nội thành Hà Nội & TP.HCM sẽ được giao hỏa tốc trong 2-4 giờ. Các tỉnh thành khác thời gian nhận hàng từ 1-3 ngày.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fas fa-spa"></i></div>
+            EvaCare
+          </a>
+          <p>Thương hiệu hàng đầu Việt Nam về chăm sóc sức khỏe và vệ sinh vùng nhạy cảm cho phụ nữ. Tự hào mang lại sự an tâm, dịu nhẹ và tự tin cho phái đẹp.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Điều Hướng</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="index.html#products-section">Sản Phẩm</a></li>
+            <li><a href="contact.html">Liên Hệ</a></li>
+            <li><a href="login.html">Đăng Nhập</a></li>
+            <li><a href="register.html">Đăng Ký</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Liên Hệ Trực Tiếp</h4>
+          <ul class="footer-links">
+            <li><i class="fas fa-phone" style="color:var(--primary); margin-right:6px;"></i> 1900 8888</li>
+            <li><i class="fas fa-envelope" style="color:var(--primary); margin-right:6px;"></i> tuvan@evacare.vn</li>
+            <li><i class="fas fa-map-marker-alt" style="color:var(--primary); margin-right:6px;"></i> Quận 1, TP.HCM</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Nhận Ưu Đãi</h4>
+          <p style="font-size:0.88rem; color:#9ca3af;">Đăng ký để nhận tin khuyến mãi mới nhất.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký!', 'success');">
+            <input type="email" placeholder="Email..." required>
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 EvaCare Vietnam. Luôn lắng nghe & đồng hành cùng bạn.</p>
+        <p><a href="index.html" style="color:var(--primary-light);">Quay về Trang Chủ</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Slide-out Drawer -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-bag" style="color:var(--primary);"></i> Giỏ Hàng</h3>
+      <button class="close-cart-btn" id="close-cart-btn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Tổng tiền:</span>
+        <span class="cart-total-price" id="cart-total-price">0 VNĐ</span>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="checkout()">Thanh Toán</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
