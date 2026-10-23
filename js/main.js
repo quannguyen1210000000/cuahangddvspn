@@ -130,6 +130,7 @@ function formatCurrency(amount) {
 document.addEventListener('DOMContentLoaded', () => {
   initCartUI();
   renderProducts('all');
+  viewProductDetail(1, false);
   setupEventListeners();
   checkAuthHash();
 });
@@ -158,15 +159,15 @@ function renderProducts(filterCategory = 'all') {
   grid.innerHTML = filtered.map(product => `
     <div class="product-card" data-id="${product.id}">
       ${product.badge ? `<span class="product-badge ${product.badgeType}">${product.badge}</span>` : ''}
-      <div class="product-img-box">
+      <div class="product-img-box" onclick="viewProductDetail(${product.id}, true)" style="cursor:pointer;">
         <img src="${product.image}" alt="${product.name}" loading="lazy">
-        <button class="quick-view-btn" onclick="openQuickView(${product.id})">
-          <i class="fas fa-eye"></i> Xem nhanh
+        <button class="quick-view-btn" onclick="event.stopPropagation(); viewProductDetail(${product.id}, true)">
+          <i class="fas fa-eye"></i> Xem chi tiết
         </button>
       </div>
       <div class="product-info">
         <div class="product-category">${product.categoryName}</div>
-        <h3 class="product-name" title="${product.name}">${product.name}</h3>
+        <h3 class="product-name" title="${product.name}" onclick="viewProductDetail(${product.id}, true)" style="cursor:pointer;">${product.name}</h3>
         <div class="product-rating">
           ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
           <span>${product.rating} (${product.reviewsCount})</span>
@@ -515,33 +516,188 @@ function checkout() {
   }, 1000);
 }
 
-// 8. Quick View Modal
-function openQuickView(productId) {
-  const product = productsData.find(p => p.id === productId);
-  if (!product) return;
+// 8. Chi Tiết Sản Phẩm (Product Detail Section) & Quick View Modal
+function viewProductDetail(productId, scrollToSection = false) {
+  const product = productsData.find(p => p.id === productId) || productsData[0];
+  const container = document.getElementById('product-detail-container');
+  if (!container || !product) return;
 
-  const modalOverlay = document.getElementById('modal-overlay');
-  const modalContent = document.getElementById('modal-card-content');
-  if (!modalOverlay || !modalContent) return;
+  const discountPercent = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : 0;
 
-  modalContent.innerHTML = `
-    <img src="${product.image}" alt="${product.name}" style="width:100%; border-radius:12px; max-height:260px; object-fit:cover;">
-    <div>
-      <span class="product-category">${product.categoryName}</span>
-      <h2 style="font-size:1.3rem; margin:8px 0;">${product.name}</h2>
-      <div class="product-rating" style="margin-bottom:12px;">
-        ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))} <span>${product.rating}</span>
+  const thumbImages = [
+    product.image,
+    "https://images.unsplash.com/photo-1608248597262-8380268fe5e1?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80"
+  ];
+
+  container.innerHTML = `
+    <div class="detail-card">
+      <div class="detail-top-grid">
+        <!-- Cột trái: Hình ảnh sản phẩm & Thumbnails -->
+        <div class="detail-gallery">
+          <div class="detail-main-img-wrap">
+            ${product.badge ? `<span class="product-badge ${product.badgeType}">${product.badge}</span>` : ''}
+            <img id="detail-main-img" src="${product.image}" alt="${product.name}">
+          </div>
+          <div class="detail-thumbs">
+            ${thumbImages.map((imgUrl, idx) => `
+              <div class="detail-thumb-item ${idx === 0 ? 'active' : ''}" onclick="changeDetailImage(this, '${imgUrl}')">
+                <img src="${imgUrl}" alt="Ảnh chi tiết ${idx + 1}">
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Cột phải: Thông tin chi tiết sản phẩm -->
+        <div class="detail-info">
+          <div class="detail-info-header">
+            <span class="product-category" style="margin-bottom:0;">${product.categoryName}</span>
+            <span class="detail-stock-badge"><i class="fas fa-check-circle"></i> Còn hàng chính hãng</span>
+          </div>
+
+          <h3 class="detail-title">${product.name}</h3>
+
+          <div class="product-rating" style="margin-bottom:8px;">
+            ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
+            <span><strong>${product.rating}/5</strong> (${product.reviewsCount} đánh giá từ khách hàng)</span>
+          </div>
+
+          <div class="detail-price-box">
+            <span class="detail-current-price">${formatCurrency(product.price)}</span>
+            ${product.oldPrice ? `<span class="detail-old-price">${formatCurrency(product.oldPrice)}</span>` : ''}
+            ${discountPercent > 0 ? `<span class="detail-discount-tag">Tiết kiệm ${discountPercent}%</span>` : ''}
+          </div>
+
+          <p class="detail-desc">${product.description}</p>
+
+          <!-- Bảng thông số kỹ thuật -->
+          <div class="detail-specs-grid">
+            <div class="detail-spec-row"><span>Thương hiệu:</span> <strong>EvaCare Vietnam</strong></div>
+            <div class="detail-spec-row"><span>Độ pH chuẩn:</span> <strong>3.8 - 4.5 (Chuẩn Y Khoa)</strong></div>
+            <div class="detail-spec-row"><span>Dung tích:</span> <strong>150ml / 250ml</strong></div>
+            <div class="detail-spec-row"><span>Cam kết:</span> <strong>0% Paraben, 0% Xà phòng</strong></div>
+            <div class="detail-spec-row"><span>Loại da:</span> <strong>Mọi loại da & Da nhạy cảm</strong></div>
+            <div class="detail-spec-row"><span>Giao hàng:</span> <strong>Che tên sản phẩm 100%</strong></div>
+          </div>
+
+          <!-- Tuỳ chọn số lượng -->
+          <div class="detail-options-row">
+            <div>
+              <span style="font-weight:600; font-size:0.9rem; margin-right:10px;">Số lượng:</span>
+              <div class="detail-qty-control">
+                <button type="button" onclick="changeDetailQty(-1)">-</button>
+                <input type="text" id="detail-qty-input" value="1" readonly>
+                <button type="button" onclick="changeDetailQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nút hành động -->
+          <div class="detail-actions">
+            <button class="btn btn-primary" onclick="addDetailToCart(${product.id}, false)">
+              <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ Hàng
+            </button>
+            <button class="btn btn-secondary" onclick="addDetailToCart(${product.id}, true)">
+              <i class="fas fa-bolt"></i> Mua Ngay Kín Đáo
+            </button>
+          </div>
+        </div>
       </div>
-      <p style="font-size:0.9rem; color:#4a5568; margin-bottom:16px;">${product.description}</p>
-      <div style="font-size:1.4rem; font-weight:800; color:var(--primary); margin-bottom:20px;">
-        ${formatCurrency(product.price)}
+
+      <!-- Tabs thông tin chuyên sâu: Mô tả / Thành phần / Hướng dẫn sử dụng -->
+      <div class="detail-tabs-wrap">
+        <div class="detail-tabs-header">
+          <button class="detail-tab-btn active" onclick="switchDetailTab(this, 'tab-desc')">
+            <i class="fas fa-info-circle"></i> Mô Tả Chi Tiết
+          </button>
+          <button class="detail-tab-btn" onclick="switchDetailTab(this, 'tab-ingredients')">
+            <i class="fas fa-leaf"></i> Thành Phần & Công Dụng
+          </button>
+          <button class="detail-tab-btn" onclick="switchDetailTab(this, 'tab-usage')">
+            <i class="fas fa-hand-sparkles"></i> Hướng Dẫn Sử Dụng
+          </button>
+        </div>
+
+        <div id="tab-desc" class="detail-tab-panel">
+          <p><strong>${product.name}</strong> là giải pháp chăm sóc vùng nhạy cảm toàn diện được nghiên cứu bởi đội ngũ chuyên gia da liễu EvaCare. Với công thức dịu nhẹ có độ pH sinh lý từ 3.8 – 4.5, sản phẩm giúp làm sạch nhẹ nhàng, khử mùi hôi suốt 24h mà không gây khô rát, giữ trọn độ ẩm tự nhiên.</p>
+        </div>
+
+        <div id="tab-ingredients" class="detail-tab-panel" style="display:none;">
+          <p><strong>Thành phần thiên nhiên lành tính:</strong> Chiết xuất Lá Trầu Không tự nhiên, Tinh chất Cúc La Mã (Chamomile), Gel Lô Hội hữu cơ, Vitamin E, Lactic Acid tự nhiên.<br>
+          <strong>Công dụng vượt trội:</strong> Kháng khuẩn tự nhiên, hỗ trợ ngăn ngừa viêm nhiễm nấm ngứa, làm dịu kích ứng và duy trì hệ vi sinh có lợi.</p>
+        </div>
+
+        <div id="tab-usage" class="detail-tab-panel" style="display:none;">
+          <p><strong>Bước 1:</strong> Làm ướt vùng kín bằng nước sạch.<br>
+          <strong>Bước 2:</strong> Lấy một lượng vừa đủ (khoảng 2-3ml) ra lòng bàn tay, tạo bọt nhẹ nhàng và thoa rửa bên ngoài vùng nhạy cảm trong 30-60 giây.<br>
+          <strong>Bước 3:</strong> Rửa sạch lại bằng nước ấm và thấm khô bằng khăn mềm. Sử dụng 1-2 lần/ngày.</p>
+        </div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="addToCart(${product.id}); closeModal();">
-        <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ Hàng
-      </button>
     </div>
   `;
-  modalOverlay.classList.add('active');
+
+  if (scrollToSection) {
+    const detailSection = document.getElementById('product-detail-section');
+    if (detailSection) {
+      detailSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+function changeDetailImage(thumbEl, imgUrl) {
+  const mainImg = document.getElementById('detail-main-img');
+  if (mainImg) mainImg.src = imgUrl;
+  document.querySelectorAll('.detail-thumb-item').forEach(el => el.classList.remove('active'));
+  if (thumbEl) thumbEl.classList.add('active');
+}
+
+function changeDetailQty(delta) {
+  const input = document.getElementById('detail-qty-input');
+  if (!input) return;
+  let val = parseInt(input.value, 10) || 1;
+  val = Math.max(1, val + delta);
+  input.value = val;
+}
+
+function addDetailToCart(productId, buyNow = false) {
+  const product = productsData.find(p => p.id === productId);
+  if (!product) return;
+  const input = document.getElementById('detail-qty-input');
+  const qty = input ? (parseInt(input.value, 10) || 1) : 1;
+
+  const existingIndex = cart.findIndex(item => item.id === productId);
+  if (existingIndex > -1) {
+    cart[existingIndex].quantity += qty;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: qty
+    });
+  }
+
+  saveCart();
+  updateCartUI();
+  if (buyNow) {
+    openCart();
+  }
+  showToast(`Đã thêm ${qty} "${product.name}" vào giỏ hàng!`, 'success');
+}
+
+function switchDetailTab(btnEl, panelId) {
+  document.querySelectorAll('.detail-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  document.querySelectorAll('.detail-tab-panel').forEach(p => {
+    p.style.display = p.id === panelId ? 'block' : 'none';
+  });
+}
+
+function openQuickView(productId) {
+  viewProductDetail(productId, true);
 }
 
 function closeModal() {
